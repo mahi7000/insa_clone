@@ -1,5 +1,5 @@
 import pg from "pg";
-import dotenv from 'dotenv';
+import dotenv from "dotenv";
 dotenv.config();
 
 const { Pool } = pg;
@@ -7,7 +7,7 @@ const { Pool } = pg;
 const pool = new Pool({
   user: process.env.DB_USER || "postgres",
   host: process.env.DB_HOST || "localhost",
-  database: process.env.DB_NAME || "insa_clone",
+  database: process.env.DB_NAME || "insa",
   password: process.env.DB_PASSWORD || "postgresql",
   port: process.env.DB_PORT || 5432,
 });
