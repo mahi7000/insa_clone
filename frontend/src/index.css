@@ -1,1 +1,113 @@
 @import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-primary: #9ABCD2;
+
+  /* light mode */
+  --color-secondary: #145796;
+  --color-background: #FFFFFF;
+  --color-text-header: #0F4273;
+  --color-text-paragraph: #FFFFFF;
+  --color-text-faded: #5E5E5E;
+
+  /* dark mode */
+  --color-dark-secondary: #E3D8BE;
+  --color-dark-background: #2C2E32;
+  --color-dark-text: #FFFFFF;
+  --color-dark-text-faded: #D5D5D5;
+
+  --font-jaro: "Jaro", sans-serif;
+  --font-inter: "Inter";
+
+  --rounded-base: 9px;
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+}
+
+@layer base {
+  :root {
+    --background: var(--color-background);
+    --foreground: var(--color-text);
+  }
+
+  .dark {
+    --background: var(--color-dark-background);
+    --foreground: var(--color-dark-text);
+  }
+
+  /* Custom base styles */
+  html {
+    @apply scroll-smooth;
+  }
+
+  body {
+    @apply bg-[rgb(var(--background))] text-[rgb(var(--foreground))] dark:bg-dark-background dark:text-dark-text font-inter;
+  }
+
+  h1, h2, h3 {
+    @apply font-bold tracking-tight;
+  }
+
+  h1 { @apply text-[28px] lg:text-[40px] font-extrabold text-primary; }
+  h2 { @apply text-[24px] lg:text-[32px] text-secondary; }
+  h3 { @apply text-[20px] lg:text-[24px] text-secondary dark:text-secondary; }
+  p { @apply text-[16px] lg:text-[18px]; }
+  small { @apply text-[14px] text-text-faded dark:text-dark-text-faded; }
+
+  button { @apply font-bold rounded-[1rem] transition-all duration-200 text-base py-2 px-4
+                  md:text-base md:py-2.5 md:px-5 focus:outline-none tracking-wide
+                  active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed;}
+
+  /* Smooth theme transition */
+  * {
+    @apply transition-colors duration-200;
+  }
+}
+
+/* 3. Component Layer (Reusable styles) */
+@layer components {
+  /* Button */
+  .btn { @apply font-bold rounded-base transition-all duration-200 text-base py-2 px-4
+                  md:text-base md:py-2.5 md:px-5 focus:outline-none tracking-wide
+                  active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed;}
+
+  .btn-primary {
+    @apply bg-primary border-2 border-primary text-dark-text;
+  }
+
+  .btn-secondary {
+    @apply text-white border-2 border-white;
+  }
+
+  .gradient-bg {
+    @apply bg-gradient-to-r from-primary to-secondary;
+  }
+
+  /* Card */
+  .card {
+    @apply rounded-base bg-primary/10 p-6 shadow-md text-text-faded shadow-[0_5px_15px_-1px_rgba(0,0,0,0.25)] blur-[16px]
+            dark:bg-dark-background dark:text-dark-text-faded;
+  }
+
+  /* Glassmorphism effect */
+  .glass {
+    @apply backdrop-blur-lg bg-white/10 border border-white/20 shadow-lg;
+  }
+}
+
+/* 4. Utilities (Custom additions) */
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Hide scrollbar but keep functionality */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
