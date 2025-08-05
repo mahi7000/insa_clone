@@ -19,7 +19,7 @@
   --color-dark-text-faded: #D5D5D5;
 
   --font-jaro: "Jaro", sans-serif;
-  --font-inter: "Inter";
+  --font-inter: sans-serif;
 
   --rounded-base: 9px;
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
@@ -55,7 +55,7 @@
   p { @apply text-[16px] lg:text-[18px]; }
   small { @apply text-[14px] text-text-faded dark:text-dark-text-faded; }
 
-  button { @apply font-bold rounded-[1rem] transition-all duration-200 text-base py-2 px-4
+  button { @apply font-bold rounded-[9px] transition-all duration-200 text-base py-2 px-4
                   md:text-base md:py-2.5 md:px-5 focus:outline-none tracking-wide
                   active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed;}
 
@@ -68,7 +68,7 @@
 /* 3. Component Layer (Reusable styles) */
 @layer components {
   /* Button */
-  .btn { @apply font-bold rounded-base transition-all duration-200 text-base py-2 px-4
+  .btn { @apply font-bold rounded-[9px] transition-all duration-200 text-base py-2 px-4
                   md:text-base md:py-2.5 md:px-5 focus:outline-none tracking-wide
                   active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed;}
 
@@ -86,7 +86,7 @@
 
   /* Card */
   .card {
-    @apply rounded-base bg-primary/10 p-6 shadow-md text-text-faded shadow-[0_5px_15px_-1px_rgba(0,0,0,0.25)] blur-[16px]
+    @apply rounded-[9px] bg-primary/10 p-6 shadow-md text-text-faded shadow-[0_5px_15px_-1px_rgba(0,0,0,0.25)] blur-[16px]
             dark:bg-dark-background dark:text-dark-text-faded;
   }
 
