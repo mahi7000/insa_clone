@@ -12,7 +12,7 @@ import {
 
 function Footer() {
   return (
-    <footer className="bg-gradient-to-t from-[#9ABCD2] via-[#145796] to-[#123456] text-white py-12 px-4 sm:px-6 lg:px-8">
+    <footer className="bg-primary text-white py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         {/* Main container */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8 w-full justify-between">

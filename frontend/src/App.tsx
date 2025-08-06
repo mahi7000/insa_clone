@@ -1,8 +1,9 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Layout from './components/Layout';
-import Home from './pages/Home';
-import Signup from './pages/Signup';
-import NotFound from './pages/NotFound';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Layout from "./components/Layout";
+import Home from "./pages/Home";
+import Signup from "./pages/Signup";
+import NotFound from "./pages/NotFound";
+import NewsPage from "./pages/News";
 
 const App = () => {
   return (
@@ -14,6 +15,7 @@ const App = () => {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Layout>
+      <NewsPage />
     </Router>
   );
 };
