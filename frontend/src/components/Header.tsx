@@ -7,8 +7,19 @@ import { useState } from 'react';
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  const [color, setColor] = useState(false);
+  const changeColor = () => {
+    if (window.scrollY >= 90) {
+      setColor(true);
+    } else {
+      setColor(false);
+    }
+  };
+
+  window.addEventListener('scroll', changeColor);
+
   return (
-    <header className="gradient-bg text-white px-4 sm:px-[50px] py-4 fixed top-0 left-0 w-full z-50">
+    <header className={color ? "header bg-primary" : "header"}>
       <div className="mx-auto flex justify-between items-center">
         <Link to="/">
           <img src={logo} alt="Logo" className="h-[50px] sm:h-[70px]" />

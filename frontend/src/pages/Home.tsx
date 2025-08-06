@@ -1,9 +1,11 @@
 import RecentActivity from "../components/RecentActivity";
+import Hero from "../components/Hero";
 
 const Home = () => {
   return (
     <div>
-       <RecentActivity />
+      <Hero />
+      <RecentActivity />
     </div>
   );
 }
