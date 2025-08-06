@@ -26,7 +26,7 @@ const Header = () => {
                     About Us 
                     {open ? <ChevronUpIcon className="w-4 h-4" /> : <ChevronDownIcon className="w-4 h-4" />}
                   </PopoverButton>
-                  <PopoverPanel anchor="bottom" className="p-4 space-y-2 z-50 flex flex-col bg-[#547597]/90 text-text-paragraph rounded-[9px] min-w-[200px]">
+                  <PopoverPanel anchor="bottom" className="p-4 space-y-2 z-50 flex flex-col bg-accent/90 text-text-paragraph rounded-[9px] min-w-[200px]">
                     <a href="/analytics" className="hover:text-white">Our Vision and Mission</a>
                     <a href="/engagement" className="hover:text-white">Our Values</a>
                     <a href="/security" className="hover:text-white">Duties and Responsibilities</a>
@@ -38,11 +38,12 @@ const Header = () => {
             <Popover className="relative m-0">
               {({ open }) => (
                 <>
+                {/* #896869 */}
                   <PopoverButton className='flex items-center space-x-1 font-semibold text-text-paragraph/80 hover:text-white'>
                     Cyber Security
                     {open ? <ChevronUpIcon className="w-4 h-4" /> : <ChevronDownIcon className="w-4 h-4" />}
                   </PopoverButton>
-                  <PopoverPanel anchor="bottom" className="p-4 space-y-2 z-50 flex flex-col bg-[#547597]/90 text-text-paragraph rounded-[9px] min-w-[200px]">
+                  <PopoverPanel anchor="bottom" className="p-4 space-y-2 z-50 flex flex-col bg-accent/90 text-text-paragraph rounded-[9px] min-w-[200px]">
                     <a href="/analytics" className="hover:text-white">Cyber Security</a>
                     <a href="/engagement" className="hover:text-white">What is Cyber?</a>
                     <a href="/security" className="hover:text-white">Cyber-Attack</a>
