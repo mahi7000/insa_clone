@@ -1,5 +1,6 @@
 import { TypeAnimation } from 'react-type-animation';
 import hero from '../assets/hero.png';
+import hero2 from '../assets/hero2.jpg';
 import { useEffect, useRef } from 'react';
 
 const Hero = () => {

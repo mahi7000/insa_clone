@@ -1,13 +1,17 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Popover, PopoverButton, PopoverPanel } from '@headlessui/react';
 import { ChevronDownIcon, ChevronUpIcon, Menu, X } from 'lucide-react';
 import logo from '../assets/insa_header_logo.png';
 import { useState } from 'react';
+import axios from 'axios';
+import { useAuth } from './AuthContext.tsx'; // Assuming you have an auth context
 
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
   const [color, setColor] = useState(false);
+  const navigate = useNavigate();
+  const { logout } = useAuth(); // Assuming you have an auth context with logout function
+
   const changeColor = () => {
     if (window.scrollY >= 90) {
       setColor(true);
@@ -18,8 +22,31 @@ const Header = () => {
 
   window.addEventListener('scroll', changeColor);
 
+  const handleLogout = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      
+      await axios.post('/api/auth/logout', {}, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      
+      localStorage.removeItem('token');
+      
+      if (logout) logout();
+      
+      navigate('/login');
+    } catch (error) {
+      console.error('Logout failed:', error);
+      localStorage.removeItem('token');
+      if (logout) logout();
+      navigate('/login');
+    }
+  };
+
   return (
-    <header className={color ? "header bg-primary" : "header"}>
+    <header className={`${color || mobileMenuOpen ? "header bg-primary" : "header"}`}>
       <div className="mx-auto flex justify-between items-center">
         <Link to="/">
           <img src={logo} alt="Logo" className="h-[50px] sm:h-[70px]" />
@@ -49,7 +76,6 @@ const Header = () => {
             <Popover className="relative m-0">
               {({ open }) => (
                 <>
-                {/* #896869 */}
                   <PopoverButton className='flex items-center space-x-1 font-semibold text-text-paragraph/80 hover:text-white'>
                     Cyber Security
                     {open ? <ChevronUpIcon className="w-4 h-4" /> : <ChevronDownIcon className="w-4 h-4" />}
@@ -67,7 +93,14 @@ const Header = () => {
             <li><a href="/" className="text-text-paragraph/80 font-semibold hover:text-white">Contact Us</a></li>
             <li><a href="/" className="text-text-paragraph/80 font-semibold hover:text-white">Documents</a></li>
             <li><a href="/" className="text-text-paragraph/80 font-semibold hover:text-white">Crypto Registry</a></li>
-            <li><a href="/signup" className="btn btn-secondary hover:bg-white/20">Logout</a></li>
+            <li>
+              <button 
+                onClick={handleLogout}
+                className="btn btn-secondary hover:bg-white/20"
+              >
+                Logout
+              </button>
+            </li>
           </ul>
         </nav>
 
@@ -118,7 +151,14 @@ const Header = () => {
             <li><a href="/" className="block text-white/80 font-semibold hover:text-white">Contact Us</a></li>
             <li><a href="/" className="block text-white/80 font-semibold hover:text-white">Documents</a></li>
             <li><a href="/" className="block text-white/80 font-semibold hover:text-white">Crypto Registry</a></li>
-            <li><a href="/signup" className="block btn btn-secondary mt-4 w-full text-center">Logout</a></li>
+            <li>
+              <button 
+                onClick={handleLogout}
+                className="block btn btn-secondary mt-4 w-full text-center"
+              >
+                Logout
+              </button>
+            </li>
           </ul>
         </div>
       )}

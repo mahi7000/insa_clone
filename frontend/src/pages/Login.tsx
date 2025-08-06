@@ -4,13 +4,11 @@ import { useState } from 'react';
 import axios from 'axios';
 import toast, { Toaster } from 'react-hot-toast';
 
-const Signup = () => {
+const Login = () => {
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
-        name: '',
         email: '',
-        password: '',
-        confirmPassword: ''
+        password: ''
     });
     const [errors, setErrors] = useState<Record<string, string>>({});
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -31,10 +29,6 @@ const Signup = () => {
         const newErrors: Record<string, string> = {};
         let isValid = true;
 
-        if (!formData.name.trim()) {
-            newErrors.name = 'Name is required';
-            isValid = false;
-        }
         if (!formData.email.trim()) {
             newErrors.email = 'Email is required';
             isValid = false;
@@ -44,13 +38,6 @@ const Signup = () => {
         }
         if (!formData.password) {
             newErrors.password = 'Password is required';
-            isValid = false;
-        } else if (formData.password.length < 8) {
-            newErrors.password = 'Password must be at least 8 characters';
-            isValid = false;
-        }
-        if (formData.password !== formData.confirmPassword) {
-            newErrors.confirmPassword = 'Passwords do not match';
             isValid = false;
         }
 
@@ -71,29 +58,25 @@ const Signup = () => {
         setIsSubmitting(true);
         
         toast.promise(
-            axios.post('http://localhost:5000/api/user/register', {
-                full_name: formData.name,
+            axios.post('http://localhost:5000/api/user/login', {
                 email_address: formData.email,
                 password: formData.password
             }),
             {
-                loading: 'Creating your account...',
+                loading: 'Logging in...',
                 success: (response) => {
-                    setFormData({
-                        name: '',
-                        email: '',
-                        password: '',
-                        confirmPassword: ''
-                    });
+                    if (response.data.token) {
+                        localStorage.setItem('authToken', response.data.token);
+                    }
                     navigate('/');
-                    return 'Signup successful! Welcome aboard!';
+                    return 'Login successful! Welcome back!';
                 },
                 error: (error) => {
-                    console.error('Signup failed:', error);
+                    console.error('Login failed:', error);
                     if (error.response?.data?.message) {
                         return error.response.data.message;
                     }
-                    return 'Signup failed. Please try again.';
+                    return 'Login failed. Please check your credentials.';
                 }
             }
         ).finally(() => {
@@ -108,29 +91,29 @@ const Signup = () => {
                 toastOptions={{
                     className: '',
                     style: {
-                    background: 'rgba(255, 255, 255, 0.15)',
-                    backdropFilter: 'blur(12px)',
-                    border: '1px solid rgba(255, 255, 255, 0.2)',
-                    color: '#fff',
-                    padding: '12px 20px',
-                    borderRadius: '12px',
-                    boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)'
+                        background: 'rgba(255, 255, 255, 0.15)',
+                        backdropFilter: 'blur(12px)',
+                        border: '1px solid rgba(255, 255, 255, 0.2)',
+                        color: '#fff',
+                        padding: '12px 20px',
+                        borderRadius: '12px',
+                        boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)'
                     },
                     success: {
-                    iconTheme: {
-                        primary: '#4ade80',
-                        secondary: 'white',
-                    },
+                        iconTheme: {
+                            primary: '#4ade80',
+                            secondary: 'white',
+                        },
                     },
                     error: {
-                    iconTheme: {
-                        primary: '#f87171',
-                        secondary: 'white',
-                    },
+                        iconTheme: {
+                            primary: '#f87171',
+                            secondary: 'white',
+                        },
                     },
                     duration: 4000,
                 }}
-                />
+            />
             
             <div className="absolute inset-0 z-0">
                 <img 
@@ -142,23 +125,8 @@ const Signup = () => {
             </div>
             
             <div className="w-full max-w-md p-8 rounded-xl backdrop-blur-lg bg-white/20 shadow-lg border border-white/30 relative z-10">
-                <h1 className="text-3xl font-bold text-white mb-6 text-center">Sign Up</h1>
+                <h1 className="text-3xl font-bold text-white mb-6 text-center">Log In</h1>
                 <form className="space-y-4" onSubmit={handleSubmit}>
-                    <div>
-                        <label htmlFor="name" className="block text-sm font-medium text-white/80">Fullname</label>
-                        <input 
-                            type="text" 
-                            id="name"
-                            name="name"
-                            value={formData.name}
-                            onChange={handleChange}
-                            className={`mt-1 block w-full p-3 bg-white/20 border ${
-                                errors.name ? 'border-red-500' : 'border-white/30'
-                            } rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/50`}
-                            placeholder="Enter your full name"
-                        />
-                        {errors.name && <p className="mt-1 text-sm text-red-500">{errors.name}</p>}
-                    </div>
                     <div>
                         <label htmlFor="email" className="block text-sm font-medium text-white/80">Email</label>
                         <input 
@@ -189,20 +157,23 @@ const Signup = () => {
                         />
                         {errors.password && <p className="mt-1 text-sm text-red-500">{errors.password}</p>}
                     </div>
-                    <div>
-                        <label htmlFor="confirmPassword" className="block text-sm font-medium text-white/80">Confirm Password</label>
-                        <input 
-                            type="password" 
-                            id="confirmPassword" 
-                            name="confirmPassword"
-                            value={formData.confirmPassword}
-                            onChange={handleChange}
-                            className={`mt-1 block w-full p-3 bg-white/20 border ${
-                                errors.confirmPassword ? 'border-red-500' : 'border-white/30'
-                            } rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/50`}
-                            placeholder="Confirm your password"
-                        />
-                        {errors.confirmPassword && <p className="mt-1 text-sm text-red-500">{errors.confirmPassword}</p>}
+                    <div className="flex items-center justify-between">
+                        <div className="flex items-center">
+                            <input
+                                id="remember-me"
+                                name="remember-me"
+                                type="checkbox"
+                                className="h-4 w-4 rounded bg-white/20 border-white/30 text-accent focus:ring-accent"
+                            />
+                            <label htmlFor="remember-me" className="ml-2 block text-sm text-white/80">
+                                Remember me
+                            </label>
+                        </div>
+                        <div className="text-sm">
+                            <a href="/forgot-password" className="font-medium text-white hover:underline">
+                                Forgot password?
+                            </a>
+                        </div>
                     </div>
                     <button 
                         type="submit" 
@@ -217,17 +188,34 @@ const Signup = () => {
                                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                                 </svg>
-                                Processing...
+                                Logging in...
                             </>
-                        ) : 'Sign Up'}
+                        ) : 'Log In'}
                     </button>
                 </form>
-                <p className="mt-4 text-sm text-white/80 text-center">
-                    Already have an account? <a href="/login" className="text-white hover:underline font-medium">Log in</a>
-                </p>
+                <div className="mt-6">
+                    <div className="relative">
+                        <div className="absolute inset-0 flex items-center">
+                            <div className="w-full border-t border-white/30"></div>
+                        </div>
+                        <div className="relative flex justify-center text-sm">
+                            <span className="px-2 bg-transparent text-white/80">
+                                Don't have an account?
+                            </span>
+                        </div>
+                    </div>
+                    <div className="mt-6 text-center">
+                        <a 
+                            href="/signup" 
+                            className="w-full py-2 px-4 bg-transparent hover:bg-white/10 text-white font-medium rounded-lg transition duration-200 border border-white/30 inline-flex items-center justify-center"
+                        >
+                            Sign Up
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     );
 }
 
-export default Signup;
+export default Login;
