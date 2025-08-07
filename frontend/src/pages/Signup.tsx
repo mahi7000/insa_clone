@@ -3,6 +3,7 @@ import signin from '../assets/signin2.jpg';
 import { useState } from 'react';
 import axios from 'axios';
 import toast, { Toaster } from 'react-hot-toast';
+import { useAuth } from '../components/AuthContext';
 
 const Signup = () => {
     const navigate = useNavigate();
@@ -63,6 +64,8 @@ const Signup = () => {
         return isValid;
     };
 
+    const { login } = useAuth();
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
@@ -79,12 +82,9 @@ const Signup = () => {
             {
                 loading: 'Creating your account...',
                 success: (response) => {
-                    setFormData({
-                        name: '',
-                        email: '',
-                        password: '',
-                        confirmPassword: ''
-                    });
+                    if (response.data.token) {
+                        login(response.data.token);
+                    }
                     navigate('/');
                     return 'Signup successful! Welcome aboard!';
                 },

@@ -1,6 +1,5 @@
 import { TypeAnimation } from 'react-type-animation';
 import hero from '../assets/hero.png';
-import hero2 from '../assets/hero2.jpg';
 import { useEffect, useRef } from 'react';
 
 const Hero = () => {
@@ -24,7 +23,7 @@ const Hero = () => {
   }, []);
 
   return (
-    <div className="relative h-screen w-full overflow-hidden">
+    <div className="relative h-screen w-full overflow-hidden mb-12">
       <div className="absolute inset-0">
         <img
           ref={imageRef}
@@ -34,17 +33,24 @@ const Hero = () => {
         />
       </div>
 
-      <div className="relative z-10 flex h-full font-extrabold flex-col items-center justify-center text-center text-white px-4">
-        <TypeAnimation
-          sequence={[
-            'INSA - Information Network Security Administration',
-            7000,
-          ]}
-          wrapper="h1"
-          speed={10}
-          className="w-[700px] text-4xl font-extrabold sm:text-5xl md:text-[96px] lg:text-7xl mb-4"
-          repeat={0}
-        />
+      <div className="relative z-10 flex h-full flex-col items-center justify-center px-4 text-center">
+        <div className="w-full max-w-4xl px-4">
+          <TypeAnimation
+            sequence={[
+              'INSA - Information Network Security Administration',
+              7000,
+            ]}
+            wrapper="h1"
+            speed={10}
+            className="text-3xl font-extrabold leading-tight text-white drop-shadow-md sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl"
+            repeat={0}
+            style={{
+              display: 'inline-block',
+              width: '100%',
+              lineHeight: '1.2'
+            }}
+          />
+        </div>
       </div>
     </div>
   );

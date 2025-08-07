@@ -4,13 +4,12 @@ import { ChevronDownIcon, ChevronUpIcon, Menu, X } from 'lucide-react';
 import logo from '../assets/insa_header_logo.png';
 import { useState } from 'react';
 import axios from 'axios';
-import { useAuth } from './AuthContext.tsx'; // Assuming you have an auth context
+import { useAuth } from './AuthContext';
 
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [color, setColor] = useState(false);
   const navigate = useNavigate();
-  const { logout } = useAuth(); // Assuming you have an auth context with logout function
 
   const changeColor = () => {
     if (window.scrollY >= 90) {
@@ -22,27 +21,11 @@ const Header = () => {
 
   window.addEventListener('scroll', changeColor);
 
+  const { logout } = useAuth();
+
   const handleLogout = async () => {
-    try {
-      const token = localStorage.getItem('token');
-      
-      await axios.post('/api/auth/logout', {}, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      });
-      
-      localStorage.removeItem('token');
-      
-      if (logout) logout();
-      
-      navigate('/login');
-    } catch (error) {
-      console.error('Logout failed:', error);
-      localStorage.removeItem('token');
-      if (logout) logout();
-      navigate('/login');
-    }
+    logout();
+    navigate('/login');
   };
 
   return (
