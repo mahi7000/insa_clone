@@ -106,7 +106,7 @@ const BlogsPage = () => {
                 <img
                   src={featuredBlog.imageUrl}
                   alt={featuredBlog.title}
-                  className="w-full h-full object-cover transition-all duration-[2000ms] ease-in-out transform group-hover:scale-110" // 10% zoom
+                  className="w-full h-full object-cover transition-all duration-[1000ms] ease-out transform group-hover:scale-110" // 10% zoom
                 />
                 <p className="absolute -top-2 -right-2 bg-red-600 text-white text-base font-bold px-8 pt-2 pb-1 rounded-lg shadow-md">
                   {" "}
