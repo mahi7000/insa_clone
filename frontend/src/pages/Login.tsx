@@ -3,6 +3,7 @@ import signin from '../assets/signin2.jpg';
 import { useState } from 'react';
 import axios from 'axios';
 import toast, { Toaster } from 'react-hot-toast';
+import { useAuth } from '../components/AuthContext';
 
 const Login = () => {
     const navigate = useNavigate();
@@ -50,6 +51,8 @@ const Login = () => {
         return isValid;
     };
 
+    const { login } = useAuth();
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
@@ -66,7 +69,7 @@ const Login = () => {
                 loading: 'Logging in...',
                 success: (response) => {
                     if (response.data.token) {
-                        localStorage.setItem('authToken', response.data.token);
+                        login(response.data.token);
                     }
                     navigate('/');
                     return 'Login successful! Welcome back!';

@@ -1,4 +1,3 @@
-// src/components/ProtectedRoute.tsx
 import React, { type JSX } from "react";
 import { Navigate } from "react-router-dom";
 import { useAuth } from "./AuthContext";
@@ -7,12 +6,16 @@ interface Props {
   children: JSX.Element;
 }
 
-const ProtectedRoute = ({ children }: Props) => {
+const PublicRoute = ({ children }: Props) => {
   const { isAuthenticated, isLoading } = useAuth();
 
-  if (isLoading) return children;
+  if (isLoading) return null;
 
-  return isAuthenticated ? children : <Navigate to="/login" replace />;
+  if (isAuthenticated) {
+    return <Navigate to="/" replace />;
+  }
+
+  return children;
 };
 
-export default ProtectedRoute;
+export default PublicRoute;
