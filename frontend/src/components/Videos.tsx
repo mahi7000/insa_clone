@@ -1,6 +1,9 @@
 import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import { ChevronLeft as LeftArrow, ChevronRight as RightArrow } from "lucide-react";
+import {
+  ChevronLeft as LeftArrow,
+  ChevronRight as RightArrow,
+} from "lucide-react";
 import placeholder1 from "../assets/placeholder_1.jpg";
 import placeholder2 from "../assets/placeholder_2.jpg";
 import placeholder3 from "../assets/placeholder_3.jpg";
@@ -17,18 +20,20 @@ const Videos = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [visibleCardsCount, setVisibleCardsCount] = useState(3);
-  const intervalRef = useRef<number | null>(null);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const blogs: Blog[] = [
     {
       id: 1,
-      description: "Nigerian High-Level Delegation Visits INSA for Educational Tour",
+      description:
+        "Nigerian High-Level Delegation Visits INSA for Educational Tour",
       imageUrl: placeholder1,
       learnMoreUrl: "https://www.insa.gov.et/web/guest/w/news-06-2",
     },
     {
       id: 2,
-      description: "Cuban Deputy Prime Minister Visits Information Network Security Administration",
+      description:
+        "Cuban Deputy Prime Minister Visits Information Network Security Administration",
       imageUrl: placeholder2,
       learnMoreUrl: "https://www.insa.gov.et/web/guest/w/news-02-6",
     },
@@ -42,7 +47,8 @@ const Videos = () => {
       id: 4,
       description: "INSA Hosts 2023 Cybersecurity Awareness Month",
       imageUrl: placeholder4,
-      learnMoreUrl: "https://www.insa.gov.et/web/guest/w/untitled-basic-web-content-13",
+      learnMoreUrl:
+        "https://www.insa.gov.et/web/guest/w/untitled-basic-web-content-13",
     },
   ];
 
@@ -58,8 +64,8 @@ const Videos = () => {
     };
 
     handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   useEffect(() => {
@@ -86,16 +92,22 @@ const Videos = () => {
 
   return (
     <div className="container mx-auto px-4 py-8 md:py-12">
-      <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-left mb-6 md:mb-12">Videos</h1>
+      <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-left mb-6 md:mb-12">
+        Videos
+      </h1>
 
-      <div 
+      <div
         className="relative"
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
       >
-        <div className="flex gap-4 md:gap-4 transition-all duration-500 pr-6">
+        <div className="flex gap-4 md:gap-4 transition-all duration-500  md:pr-6">
           {getVisibleCards().map((blog) => (
-            <div key={blog.id} className="w-full flex-shrink-0" style={{ width: `${100/visibleCardsCount}%` }}>
+            <div
+              key={blog.id}
+              className="w-full flex-shrink-0"
+              style={{ width: `${100 / visibleCardsCount}%` }}
+            >
               <Link to={blog.learnMoreUrl} className="group block h-full">
                 <div className="relative rounded-xl shadow-lg overflow-hidden h-48 sm:h-64 md:h-72 transition-all duration-300 hover:shadow-xl">
                   <img
@@ -118,13 +130,19 @@ const Videos = () => {
         {visibleCardsCount < blogs.length && (
           <>
             <button
-              onClick={() => setCurrentIndex((prev) => (prev - 1 + blogs.length) % blogs.length)}
+              onClick={() =>
+                setCurrentIndex(
+                  (prev) => (prev - 1 + blogs.length) % blogs.length
+                )
+              }
               className="absolute left-0 top-1/2 -translate-y-1/2 bg-black/50 text-white p-1 md:p-2 rounded-full hover:bg-black/70"
             >
               <LeftArrow className="w-4 h-4 md:w-6 md:h-6" />
             </button>
             <button
-              onClick={() => setCurrentIndex((prev) => (prev + 1) % blogs.length)}
+              onClick={() =>
+                setCurrentIndex((prev) => (prev + 1) % blogs.length)
+              }
               className="absolute right-0 top-1/2 -translate-y-1/2 bg-black/50 text-white p-1 md:p-2 rounded-full hover:bg-black/70"
             >
               <RightArrow className="w-4 h-4 md:w-6 md:h-6" />

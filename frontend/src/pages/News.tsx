@@ -300,6 +300,7 @@ import placeholder1 from "../assets/placeholder_1.jpg";
 import placeholder2 from "../assets/placeholder_2.jpg";
 import placeholder3 from "../assets/placeholder_3.jpg";
 import placeholder4 from "../assets/placeholder_4.jpg";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 type NewsItem = {
   id: number;
@@ -394,13 +395,13 @@ const NewsPage = () => {
   });
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-16">
-      <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-10">
+    <div className="max-w-7xl mx-auto px-4 py-16 overflow-hidden">
+      <h1 className=" ml-15 text-3xl font-bold text-gray-900 dark:text-white mb-10">
         News
       </h1>
 
       <div
-        className="ml-140 relative w-[full] h-[400px] items-center "
+        className=" relative w-[full] h-[400px] items-center parent "
         {...swipeHandlers}
       >
         <div className="relative items-center h-full  w-full check">
@@ -458,7 +459,7 @@ const NewsPage = () => {
             <div key={news.id}>
               {/* ✅ Mobile version (only show active/front card) */}
               {index === 2 && (
-                <div className="lg:hidden ml-[0px] absolute w-[full] h-[300px] rounded  shadow-lg transition-all duration-700 ease-in-out   w-[100%] check">
+                <div className="lg:hidden ml-[0px] absolute w-[full] h-[400px] rounded-[9px] shadow-lg transition-all duration-700 ease-in-out   w-[100%] check">
                   <div className="relative h-full w-[100%] check">
                     <img
                       src={news.image}
@@ -466,7 +467,7 @@ const NewsPage = () => {
                       className="w-full h-full object-cover"
                     />
                     <div className="absolute inset-0 w-full text-white p-4 bg-gradient-to-t from-black/90 via-black/70 to-transparent flex flex-col justify-end items-start">
-                      <p className="text-sm mb-1 absolute -top-2 -right-2 bg-primary opacity-75 text-white font-bold px-8 pt-3 pb-1 rounded-lg">
+                      <p className="text-sm mb-1 absolute -top-0 -right-0 bg-primary opacity-75 text-white font-bold px-8 pt-3 pb-1 rounded-lg">
                         {news.date}
                       </p>
                       <h2 className="text-lg font-bold">{news.title}</h2>
@@ -478,7 +479,7 @@ const NewsPage = () => {
 
               {/* ✅ Desktop version with stacking */}
               <div
-                className={`hidden lg:block absolute w-[800px] h-[400px] rounded overflow-hidden shadow-lg transition-all duration-700 ease-in-out ${overlapStyles[index]}`}
+                className={` ml-140 hidden lg:block absolute w-[800px] h-[400px] rounded-[9px] overflow-hidden shadow-lg transition-all duration-700 ease-in-out ${overlapStyles[index]}`}
               >
                 <div className="relative h-full">
                   <img
@@ -506,38 +507,38 @@ const NewsPage = () => {
       </div>
 
       {/* Manual Navigation Buttons */}
-      <div className="flex justify-center mt-6 space-x-4">
+      <div className="flex justify-center items-center mt-6 space-x-4">
         <button
           onClick={() =>
             setActiveIndex(
               (prev) => (prev - 1 + newsData.length) % newsData.length
             )
           }
-          className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400 dark:bg-gray-700 dark:hover:bg-gray-600"
+          className="p-4 bg-black/50 rounded-full hover:bg-gray-400 dark:bg-gray-700 dark:hover:bg-gray-600"
         >
-          ←
+          <ChevronLeft className="w-6 h-6 text-white " />
         </button>
+        <div className="flex justify-center items-center mt-1 space-x-2">
+          {newsData.map((_, index) => (
+            <span
+              key={index}
+              className={`block rounded-full transition-all duration-300 ${
+                index === activeIndex
+                  ? "bg-[#E05C5F] h-4 w-4"
+                  : "bg-[#E05C5F] opacity-50 h-3 w-3"
+              }`}
+            ></span>
+          ))}
+        </div>
         <button
           onClick={() => setActiveIndex((prev) => (prev + 1) % newsData.length)}
-          className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400 dark:bg-gray-700 dark:hover:bg-gray-600"
+          className="p-4 bg-black/50 rounded-full hover:bg-gray-400 dark:bg-gray-700 dark:hover:bg-gray-600"
         >
-          →
+          <ChevronRight className="w-6 h-6 text-white" />
         </button>
       </div>
 
       {/* Dot Indicators */}
-      <div className="flex justify-center mt-6 space-x-2">
-        {newsData.map((_, index) => (
-          <span
-            key={index}
-            className={`block rounded-full transition-all duration-300 ${
-              index === activeIndex
-                ? "bg-[#E05C5F] h-4 w-4"
-                : "bg-[#E05C5F] opacity-50 h-3 w-3"
-            }`}
-          ></span>
-        ))}
-      </div>
     </div>
   );
 };
