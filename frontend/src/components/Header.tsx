@@ -3,7 +3,6 @@ import { Popover, PopoverButton, PopoverPanel } from '@headlessui/react';
 import { ChevronDownIcon, ChevronUpIcon, Menu, X } from 'lucide-react';
 import logo from '../assets/insa_header_logo.png';
 import { useState } from 'react';
-import axios from 'axios';
 import { useAuth } from './AuthContext';
 
 const Header = () => {
