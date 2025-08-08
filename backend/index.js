@@ -8,7 +8,7 @@ import userRoute from "./routes/user.js";
 const app = express();
 app.use(
   cors({
-    origin: "https://insa-clone-2.vercel.app/",
+    origin: "https://insa-clone.vercel.app",
     credentials: true,
   })
 );
