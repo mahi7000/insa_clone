@@ -21,4 +21,23 @@ const pool = new Pool({
   }
 });
 
+async function initializeDatabase() {
+  try {
+    await pool.query(`
+      CREATE TABLE users (
+        id SERIAL PRIMARY KEY,
+        full_name VARCHAR(255) NOT NULL,
+        picture TEXT,
+        email_address VARCHAR(255) UNIQUE NOT NULL,
+        password TEXT NOT NULL
+      );
+    `);
+    console.log("Database tables initialized");
+  } catch (error) {
+    console.error("Error initializing database tables:", error);
+  }
+}
+
+initializeDatabase();
+
 export default pool;
