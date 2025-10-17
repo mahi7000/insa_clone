@@ -1,0 +1,32 @@
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  security:
+    name: 🛡️ Vulnerability Scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🔍 Scan for vulnerabilities
+        uses: mahi7000/Developer_Vulnerability_Scanner@v1.0.1
+        with:
+          scan-path: '.'
+          output-format: 'sarif'
+          fail-on-issues: false  # Set to false for testing
+        id: security-scan
+
+      - name: 📊 Show results
+        run: |
+          echo "Security Score: ${{ steps.security-scan.outputs.security-score }}"
+          echo "Total Issues: ${{ steps.security-scan.outputs.total-issues }}"
+          echo "Critical Issues: ${{ steps.security-scan.outputs.critical-issues }}"
+          
+      - name: 📄 Upload SARIF results
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: dvs-results.sarif
