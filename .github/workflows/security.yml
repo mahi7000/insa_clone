@@ -1,4 +1,4 @@
-name: 🛡️ Security Scan
+name: 🛡️ Security Scan w Composite
 
 on:
   push:
