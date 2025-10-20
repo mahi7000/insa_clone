@@ -21,7 +21,7 @@ jobs:
           fetch-depth: 0  # Fetch all history for better analysis
 
       - name: 🔍 Scan for vulnerabilities
-        uses: mahi7000/Developer_Vulnerability_Scanner@v1.0.1
+        uses: mahi7000/Developer_Vulnerability_Scanner@v1.0.2
         with:
           scan-path: '.'
           output-format: 'sarif'
