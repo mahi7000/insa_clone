@@ -51,6 +51,24 @@ jobs:
           sarif_file: dvs-results.sarif
           wait-for-processing: true
 
+      - name: 🐛 Debug Vulnerability Conversion
+        run: |
+          echo "=== Checking SARIF Content ==="
+          if [ -f "dvs-results.sarif" ]; then
+            echo "SARIF file content:"
+            cat dvs-results.sarif
+            echo "=== Analysis ==="
+            if jq -e '.runs[0].results | length > 0' dvs-results.sarif > /dev/null; then
+              echo "✅ SARIF contains $(jq '.runs[0].results | length' dvs-results.sarif) vulnerabilities"
+              echo "Sample:"
+              jq '.runs[0].results[0]' dvs-results.sarif
+            else
+              echo "❌ SARIF contains 0 vulnerabilities (but scanner found 3)"
+              echo "Full structure:"
+              jq '.' dvs-results.sarif
+            fi
+          fi
+
       - name: ⚠️ Fail if critical vulnerabilities found
         if: steps.security-scan.outputs.critical-issues && steps.security-scan.outputs.critical-issues != '0'
         run: |
