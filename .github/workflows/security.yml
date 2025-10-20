@@ -1,3 +1,5 @@
+name: 🛡️ Security Scan
+
 on:
   push:
     branches: [ main ]
@@ -8,9 +10,15 @@ jobs:
   security:
     name: 🛡️ Vulnerability Scan
     runs-on: ubuntu-latest
+    permissions:
+      security-events: write  # Required for SARIF upload
+      contents: read
+    
     steps:
       - name: 📥 Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Fetch all history for better analysis
 
       - name: 🔍 Scan for vulnerabilities
         uses: mahi7000/Developer_Vulnerability_Scanner@v1.0.1
@@ -19,14 +27,33 @@ jobs:
           output-format: 'sarif'
           fail-on-issues: false  # Set to false for testing
         id: security-scan
+        continue-on-error: true  # Continue even if vulnerabilities found
 
-      - name: 📊 Show results
+      - name: 📊 Show scan results
         run: |
-          echo "Security Score: ${{ steps.security-scan.outputs.security-score }}"
-          echo "Total Issues: ${{ steps.security-scan.outputs.total-issues }}"
-          echo "Critical Issues: ${{ steps.security-scan.outputs.critical-issues }}"
+          echo "=== Security Scan Results ==="
+          echo "Security Score: ${{ steps.security-scan.outputs.security-score || 'N/A' }}"
+          echo "Total Issues: ${{ steps.security-scan.outputs.total-issues || 'N/A' }}"
+          echo "Critical Issues: ${{ steps.security-scan.outputs.critical-issues || 'N/A' }}"
           
-      - name: 📄 Upload SARIF results
+          # Check if SARIF file was created
+          if [ -f "dvs-results.sarif" ]; then
+            echo "✅ SARIF report generated successfully"
+            echo "📊 File size: $(wc -l < dvs-results.sarif) lines"
+          else
+            echo "❌ SARIF report not found"
+            exit 1
+          fi
+
+      - name: 📄 Upload SARIF results to GitHub Security
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: dvs-results.sarif
+          wait-for-processing: true
+
+      - name: ⚠️ Fail if critical vulnerabilities found
+        if: steps.security-scan.outputs.critical-issues && steps.security-scan.outputs.critical-issues != '0'
+        run: |
+          echo "❌ Critical vulnerabilities found: ${{ steps.security-scan.outputs.critical-issues }}"
+          echo "Please review the security findings in the GitHub Security tab."
+          exit 1
