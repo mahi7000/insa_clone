@@ -25,7 +25,7 @@ jobs:
         with:
           scan-path: '.'
           output-format: 'sarif'
-          fail-on-issues: false  # Set to false for testing
+          fail-on-issues: true  # Set to false for testing
         id: security-scan
         continue-on-error: true  # Continue even if vulnerabilities found
 
